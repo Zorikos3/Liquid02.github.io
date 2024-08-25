@@ -12,64 +12,103 @@
       body {
         margin: 0;
         padding: 0;
-        font-family: Arial, sans-serif;
-        background-color: black;
-        color: white;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        color: #f0f0f0;
         overflow: hidden;
-      }
-
-      .intro-container {
-        position: relative;
-        width: 100vw;
-        height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-direction: column;
+        height: 100vh;
+      }
+
+      .intro-container {
+        text-align: center;
+        z-index: 2;
       }
 
       #background-image {
         position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
         z-index: -1;
+        filter: blur(8px) brightness(0.6);
       }
 
       .intro-text {
-        text-align: center;
         opacity: 0;
         padding: 20px;
-        background-color: rgba(0, 0, 0, 0.7);
-        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 15px;
+        backdrop-filter: blur(5px);
+        animation: fadeIn 2s ease-in forwards;
       }
 
-      .intro-text h1,
+      .intro-text h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
+        color: #00ffdd;
+        text-shadow: 0 0 10px rgba(0, 255, 221, 0.7);
+      }
+
       .intro-text p {
-        font-size: 24px;
-        margin: 0 0 10px;
-        color: white;
+        font-size: 18px;
+        color: #ccc;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        margin-bottom: 30px;
       }
 
       .cta-button {
         display: inline-block;
-        padding: 10px 20px;
-        background-color: #222;
+        padding: 12px 25px;
+        background: #222;
         color: #fff;
         text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-        margin: 5px;
+        border-radius: 25px;
+        transition: background 0.3s ease, transform 0.3s ease;
+        margin: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        font-size: 18px;
+        border: none;
+        outline: none;
       }
 
       .cta-button:hover {
-        background-color: #444;
+        background: #00ffdd;
+        color: #000;
+        transform: translateY(-5px);
       }
 
-      #music-control {
-        position: absolute;
-        top: 10px;
-        left: 10px;
+      #about-container {
+        display: none;
+        margin-top: 20px;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 15px;
+        animation: fadeIn 1.5s ease-in forwards;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      #about-text {
+        font-size: 18px;
+        color: #eee;
+        line-height: 1.6;
+        opacity: 0;
+        animation: fadeInText 1.5s ease-in forwards;
+      }
+
+      @keyframes fadeInText {
+        to {
+          opacity: 1;
+        }
       }
     </style>
     <title>Liquid02</title>
@@ -82,19 +121,14 @@
         id="background-image"
       />
       <div class="intro-text">
-        <h1 class="fade-in">Liquid02&nbsp;External</h1>
-        <p class="changing-text" id="changingText"></p>
+        <h1>Liquid02&nbsp;External</h1>
+        <p id="changingText"></p>
         <a href="https://discord.gg/AMejXudbDh" class="cta-button"
-          ><i class="fab fa-discord"></i
-        ></a>
-        <a href="https://www.youtube.com/@Zorikos3" class="cta-button"
-          ><i class="fab fa-youtube"></i
-        ></a>
-        <audio id="background-music" loop>
-          <source src="music.mp3" type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
-        <button id="music-control" class="cta-button">Liquid</button>
+          ><i class="fab fa-discord"></i> Join Discord</a>
+        <button id="about-button" class="cta-button">About Liquid02</button>
+        <div id="about-container">
+          <p id="about-text">Why buy Liquid02? Liquid02 is on of the best streamable roblox cheat out there💪.. Bypassing OBS Recorder Display & Window Capture, and any recorders video capture! Buy Liquid02 and Rule all of roblox games with our simple and powerful aimbot!</p>
+        </div>
       </div>
     </div>
 
@@ -122,26 +156,24 @@
 
       const changingText = document.getElementById("changingText");
       const texts = [
-        ["Best Streamable Cheat"],
-        ["Join Discord To Purchase!"],
-        ["Made by zor.."],
-        ["Liquid02 was named SolarWare"],
-        ["Roblox Offsets?!"],
-        ["Join Our Discord!"],
-        ["Byfron-for-gays"],
-        ["I love my customers❤"],
-        ["thanks for visiting>!"],
+        "Best Streamable Cheat",
+        "Join Discord To Purchase!",
+        "Made by zor...",
+        "Liquid02 was named SolarWare",
+        "Roblox Offsets?!",
+        "Join Our Discord!",
+        "Byfron-for-gays",
+        "I love my customers❤",
+        "Thanks for visiting!"
       ];
       let currentIndex = 0;
-      let wordIndex = 0;
       let letterIndex = 0;
       let isTyping = true;
 
       function typeText() {
         if (isTyping) {
-          if (letterIndex < texts[currentIndex][wordIndex].length) {
-            changingText.innerHTML +=
-              texts[currentIndex][wordIndex].charAt(letterIndex);
+          if (letterIndex < texts[currentIndex].length) {
+            changingText.innerHTML += texts[currentIndex].charAt(letterIndex);
             letterIndex++;
             setTimeout(typeText, 100);
           } else {
@@ -154,17 +186,11 @@
       function eraseText() {
         if (!isTyping) {
           if (letterIndex >= 0) {
-            changingText.innerHTML = texts[currentIndex][wordIndex].substring(
-              0,
-              letterIndex
-            );
+            changingText.innerHTML = texts[currentIndex].substring(0, letterIndex);
             letterIndex--;
             setTimeout(eraseText, 50);
           } else {
-            wordIndex = (wordIndex + 1) % texts[currentIndex].length;
-            if (wordIndex === 0) {
-              currentIndex = (currentIndex + 1) % texts.length;
-            }
+            currentIndex = (currentIndex + 1) % texts.length;
             isTyping = true;
             setTimeout(typeText, 500);
           }
@@ -173,20 +199,20 @@
 
       typeText();
 
-      const backgroundMusic = document.getElementById("background-music");
-      const musicControl = document.getElementById("music-control");
+      // About button functionality
+      const aboutButton = document.getElementById("about-button");
+      const aboutContainer = document.getElementById("about-container");
+      const aboutText = document.getElementById("about-text");
 
-      let isMusicPlaying = false;
-
-      musicControl.addEventListener("click", function () {
-        if (isMusicPlaying) {
-          backgroundMusic.pause();
-          isMusicPlaying = false;
-          musicControl.textContent = "🔈";
+      aboutButton.addEventListener("click", function () {
+        if (aboutContainer.style.display === "none" || !aboutContainer.style.display) {
+          aboutContainer.style.display = "block";
+          aboutText.style.opacity = 0; // Reset opacity for fade-in
+          setTimeout(function () {
+            aboutText.style.opacity = 1;
+          }, 100); // Slight delay for smoother fade-in effect
         } else {
-          backgroundMusic.play();
-          isMusicPlaying = true;
-          musicControl.textContent = "🔊";
+          aboutContainer.style.display = "none";
         }
       });
     </script>

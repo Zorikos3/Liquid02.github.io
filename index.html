@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="Picture.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Exo 2', sans-serif;
+      color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      background: #000;
+    }
+
+    #reveal-button {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      color: #00ffdd;
+      font-size: 48px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      cursor: pointer;
+      transition: opacity 1s ease;
+    }
+
+    .hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-container {
+      text-align: center;
+      z-index: 2;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    #background-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 83%; /* Slightly larger than the screen width */
+      height: auto;
+      min-height: 100%; /* Ensures it covers the height of the screen */
+      transform: translate(-50%, -50%); /* Centers the video */
+      object-fit: cover;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .intro-text h1 {
+      font-size: 56px;
+      margin-bottom: 20px;
+      color: #00ffdd;
+      text-shadow: 0 0 20px rgba(0, 255, 221, 0.7);
+      animation: glowText 3s infinite alternate;
+    }
+
+    .intro-text p {
+      font-size: 20px;
+      color: #ccc;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+      margin-bottom: 30px;
+    }
+
+    @keyframes glowText {
+      0% { text-shadow: 0 0 10px rgba(0, 255, 221, 0.7); }
+      100% { text-shadow: 0 0 20px rgba(0, 255, 221, 1); }
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #00ffdd, #007bff);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 30px;
+      margin: 10px;
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      font-size: 18px;
+      box-shadow: 0 0 15px rgba(0, 255, 221, 0.5);
+      border: none;
+      outline: none;
+    }
+
+    .cta-button:hover {
+      background: linear-gradient(135deg, #007bff, #00ffdd);
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(0, 255, 221, 0.7);
+    }
+
+    #about-container {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 15px;
+      animation: fadeIn 1.5s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    #about-text {
+      font-size: 18px;
+      color: #eee;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeInText 1.5s ease-in forwards;
+    }
+
+    @keyframes fadeInText {
+      to { opacity: 1; }
+    }
+  </style>
+  <title>Liquid02</title>
+</head>
+<body>
+  <!-- Full-screen button -->
+  <div id="reveal-button">Click Anywhere</div>
+
+  <!-- Background video -->
+  <video id="background-video" autoplay muted loop>
+    <source src="Background.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Music audio -->
+  <audio id="background-music" loop>
+    <source src="Song.mp3" type="audio/mp3" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="intro-container">
+    <div class="intro-text">
+      <h1>Liquid02&nbsp;External</h1>
+      <p id="changingText"></p>
+      <a href="https://discord.gg/AMejXudbDh" class="cta-button"><i class="fab fa-discord"></i> Join Discord</a>
+      <button id="about-button" class="cta-button">About Liquid02</button>
+      <div id="about-container">
+        <p id="about-text">Why buy Liquid02? Liquid02 is one of the best streamable Roblox cheats out there💪... Bypassing OBS Recorder Display & Window Capture, and any recorders' video capture! Buy Liquid02 and rule all of Roblox games with our simple and powerful aimbot & esp!</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const revealButton = document.getElementById("reveal-button");
+    const introContainer = document.querySelector(".intro-container");
+    const backgroundVideo = document.getElementById("background-video");
+    const backgroundMusic = document.getElementById("background-music");
+
+    // Reveal button click handler
+    revealButton.addEventListener("click", function () {
+      revealButton.classList.add("hidden"); // Hide the button
+      introContainer.style.opacity = 1; // Reveal the content
+      backgroundVideo.style.opacity = 1; // Show the video
+      backgroundVideo.play(); // Play the video
+      backgroundMusic.play(); // Play the music
+    });
+
+    // Typewriter and text change logic
+    document.addEventListener("DOMContentLoaded", function () {
+      const introText = document.querySelector(".intro-text");
+      introText.style.opacity = 1;
+      typeWriterEffect(introText.querySelector("h1"), 100);
+      typeWriterEffect(introText.querySelector("p"), 50);
+    });
+
+    function typeWriterEffect(element, speed) {
+      const text = element.innerText;
+      element.innerText = "";
+      let i = 0;
+      const typeInterval = setInterval(function () {
+        if (i < text.length) {
+          element.innerText += text.charAt(i);
+          i++;
+        } else {
+          clearInterval(typeInterval);
+        }
+      }, speed);
+    }
+
+    const changingText = document.getElementById("changingText");
+    const texts = [
+      "Best Streamable Cheat",
+      "Join Discord To Purchase!",
+      "Made by zor...",
+      "Liquid02 was named SolarWare",
+      "Roblox Offsets?!",
+      "Join Our Discord!",
+      "Byfron-for-gays",
+      "I love my customers❤",
+      "Thanks for visiting!"
+    ];
+    let currentIndex = 0;
+    let letterIndex = 0;
+    let isTyping = true;
+
+    function typeText() {
+      if (isTyping) {
+        if (letterIndex < texts[currentIndex].length) {
+          changingText.innerHTML += texts[currentIndex].charAt(letterIndex);
+          letterIndex++;
+          setTimeout(typeText, 100);
+        } else {
+          isTyping = false;
+          setTimeout(eraseText, 2000);
+        }
+      }
+    }
+
+    function eraseText() {
+      if (!isTyping) {
+        if (letterIndex >= 0) {
+          changingText.innerHTML = texts[currentIndex].substring(0, letterIndex);
+          letterIndex--;
+          setTimeout(eraseText, 50);
+        } else {
+          currentIndex = (currentIndex + 1) % texts.length;
+          isTyping = true;
+          setTimeout(typeText, 500);
+        }
+      }
+    }
+
+    typeText();
+
+    const aboutButton = document.getElementById("about-button");
+    const aboutContainer = document.getElementById("about-container");
+    const aboutText = document.getElementById("about-text");
+
+    aboutButton.addEventListener("click", function () {
+      if (aboutContainer.style.display === "none" || !aboutContainer.style.display) {
+        aboutContainer.style.display = "block";
+        aboutText.style.opacity = 0;
+        setTimeout(function () {
+          aboutText.style.opacity = 1;
+        }, 100);
+      } else {
+        aboutContainer.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>

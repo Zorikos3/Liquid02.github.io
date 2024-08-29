@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;700&display=swap" rel="stylesheet" />
   <style>
+    /* Base cursor style */
     body {
       margin: 0;
       padding: 0;
@@ -17,8 +18,9 @@
       align-items: center;
       height: 100vh;
       overflow: hidden;
+      background: linear-gradient(135deg, #000428, #004e92);
       position: relative;
-      background: #000;
+      cursor: url('cursor.cr') 2 2, auto;
     }
 
     #reveal-button {
@@ -47,27 +49,33 @@
     .intro-container {
       text-align: center;
       z-index: 2;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(15px);
       background: rgba(255, 255, 255, 0.1);
       padding: 40px;
       border-radius: 20px;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
       opacity: 0;
-      transition: opacity 1s ease;
+      transition: opacity 1.5s ease;
+      animation: fadeIn 2s forwards 1s;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(50px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
     #background-video {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 83%; /* Slightly larger than the screen width */
+      width: 100%;
       height: auto;
-      min-height: 100%; /* Ensures it covers the height of the screen */
-      transform: translate(-50%, -50%); /* Centers the video */
+      min-height: 100%;
+      transform: translate(-50%, -50%);
       object-fit: cover;
       z-index: -1;
-      opacity: 0;
-      transition: opacity 1s ease;
+      opacity: 0.6;
     }
 
     .intro-text h1 {
@@ -75,7 +83,12 @@
       margin-bottom: 20px;
       color: #00ffdd;
       text-shadow: 0 0 20px rgba(0, 255, 221, 0.7);
-      animation: glowText 3s infinite alternate;
+      animation: glowText 3s infinite alternate, floatText 5s ease-in-out infinite;
+    }
+
+    @keyframes floatText {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
     .intro-text p {
@@ -83,11 +96,6 @@
       color: #ccc;
       text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
       margin-bottom: 30px;
-    }
-
-    @keyframes glowText {
-      0% { text-shadow: 0 0 10px rgba(0, 255, 221, 0.7); }
-      100% { text-shadow: 0 0 20px rgba(0, 255, 221, 1); }
     }
 
     .cta-button {
@@ -103,11 +111,14 @@
       box-shadow: 0 0 15px rgba(0, 255, 221, 0.5);
       border: none;
       outline: none;
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      cursor: url('cursor.ani'), pointer; /* Custom animated cursor for buttons */
     }
 
     .cta-button:hover {
       background: linear-gradient(135deg, #007bff, #00ffdd);
-      transform: translateY(-5px);
+      transform: translateY(-5px) scale(1.05);
       box-shadow: 0 0 25px rgba(0, 255, 221, 0.7);
     }
 
@@ -115,25 +126,16 @@
       display: none;
       margin-top: 20px;
       padding: 20px;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.3);
       border-radius: 15px;
-      animation: fadeIn 1.5s ease-in forwards;
-    }
-
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-
-    #about-text {
-      font-size: 18px;
-      color: #eee;
-      line-height: 1.6;
-      opacity: 0;
       animation: fadeInText 1.5s ease-in forwards;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
     }
 
     @keyframes fadeInText {
-      to { opacity: 1; }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
   <title>Liquid02</title>
@@ -172,16 +174,14 @@
     const backgroundVideo = document.getElementById("background-video");
     const backgroundMusic = document.getElementById("background-music");
 
-    // Reveal button click handler
     revealButton.addEventListener("click", function () {
-      revealButton.classList.add("hidden"); // Hide the button
-      introContainer.style.opacity = 1; // Reveal the content
-      backgroundVideo.style.opacity = 1; // Show the video
-      backgroundVideo.play(); // Play the video
-      backgroundMusic.play(); // Play the music
+      revealButton.classList.add("hidden");
+      introContainer.style.opacity = 1;
+      backgroundVideo.style.opacity = 1;
+      backgroundVideo.play();
+      backgroundMusic.play();
     });
 
-    // Typewriter and text change logic
     document.addEventListener("DOMContentLoaded", function () {
       const introText = document.querySelector(".intro-text");
       introText.style.opacity = 1;
